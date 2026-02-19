@@ -687,12 +687,6 @@ function setPlacedItemSize(el, nextSize, skipSave = false) {
   if (!skipSave) saveRoomState();
 }
 
-function getTouchDistance(touchA, touchB) {
-  const dx = touchA.clientX - touchB.clientX;
-  const dy = touchA.clientY - touchB.clientY;
-  return Math.hypot(dx, dy);
-}
-
 function showDeleteZoneCue() {
   document.body.classList.add('show-delete-zone');
 }
@@ -767,6 +761,41 @@ function makeMovable(el) {
       document.addEventListener('mousemove', onResizeMove);
       document.addEventListener('mouseup', onResizeUp);
     });
+
+    resizeHandle.addEventListener('touchstart', (e) => {
+      if (e.touches.length !== 1) return;
+      e.preventDefault();
+      e.stopPropagation();
+      setActivePlacedItem(el);
+      el.classList.add('resizing');
+
+      const touch = e.touches[0];
+      resizeStartX = touch.clientX;
+      resizeStartY = touch.clientY;
+      resizeStartSize = parseFloat(el.dataset.size || getComputedStyle(el).fontSize) || 40;
+
+      function onResizeTouchMove(ev) {
+        if (!ev.touches.length) return;
+        ev.preventDefault();
+        const activeTouch = ev.touches[0];
+        const dx = activeTouch.clientX - resizeStartX;
+        const dy = activeTouch.clientY - resizeStartY;
+        const nextSize = resizeStartSize + Math.max(dx, dy) * 0.6;
+        setPlacedItemSize(el, nextSize, true);
+      }
+
+      function onResizeTouchEnd() {
+        document.removeEventListener('touchmove', onResizeTouchMove);
+        document.removeEventListener('touchend', onResizeTouchEnd);
+        document.removeEventListener('touchcancel', onResizeTouchEnd);
+        el.classList.remove('resizing');
+        saveRoomState();
+      }
+
+      document.addEventListener('touchmove', onResizeTouchMove, { passive: false });
+      document.addEventListener('touchend', onResizeTouchEnd);
+      document.addEventListener('touchcancel', onResizeTouchEnd);
+    }, { passive: false });
   }
 
   el.addEventListener('mouseenter', () => {
@@ -807,40 +836,6 @@ function makeMovable(el) {
   el.addEventListener('touchstart', (e) => {
     if (e.target.closest('.resize-handle') || e.target.closest('.remove-btn')) return;
     setActivePlacedItem(el);
-
-    if (e.touches.length === 2) {
-      e.preventDefault();
-      el.classList.add('resizing');
-
-      const pinchStartDistance = getTouchDistance(e.touches[0], e.touches[1]);
-      if (!pinchStartDistance) {
-        el.classList.remove('resizing');
-        return;
-      }
-      const pinchStartSize = parseFloat(el.dataset.size || getComputedStyle(el).fontSize) || 40;
-
-      function onPinchMove(ev) {
-        if (ev.touches.length < 2) return;
-        ev.preventDefault();
-        const distance = getTouchDistance(ev.touches[0], ev.touches[1]);
-        const nextSize = pinchStartSize * (distance / pinchStartDistance);
-        setPlacedItemSize(el, nextSize, true);
-      }
-
-      function onPinchEnd(ev) {
-        if (ev.touches.length >= 2) return;
-        document.removeEventListener('touchmove', onPinchMove);
-        document.removeEventListener('touchend', onPinchEnd);
-        document.removeEventListener('touchcancel', onPinchEnd);
-        el.classList.remove('resizing');
-        saveRoomState();
-      }
-
-      document.addEventListener('touchmove', onPinchMove, { passive: false });
-      document.addEventListener('touchend', onPinchEnd);
-      document.addEventListener('touchcancel', onPinchEnd);
-      return;
-    }
 
     if (e.touches.length !== 1) return;
 
@@ -974,6 +969,18 @@ loadRoomState();
 
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
+    let hasRefreshedForNewWorker = false;
+
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (hasRefreshedForNewWorker) return;
+      hasRefreshedForNewWorker = true;
+      window.location.reload();
+    });
+
+    navigator.serviceWorker.register('./sw.js')
+      .then((registration) => {
+        registration.update().catch(() => {});
+      })
+      .catch(() => {});
   });
 }
