@@ -1,0 +1,25 @@
+{
+  "name": "Isla's Dream Room Designer",
+  "short_name": "Isla Room",
+  "description": "A fun drag-and-drop room designer for kids.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fff8fb",
+  "theme_color": "#8e24aa",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

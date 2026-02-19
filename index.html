@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#8e24aa">
+  <title>Isla's Dream Room 🌟</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ✨ Header ✨ -->
+  <header class="header">
+    <div class="title-row">
+      <h1>⭐ <span id="project-title-text">Isla's Dream Room</span> ⭐</h1>
+      <button class="project-edit-btn" id="edit-project-name-btn" type="button" aria-label="Rename project" title="Rename project">✏️</button>
+    </div>
+    <div class="slot-picker" aria-label="Save slots">
+      <span class="slot-label">Pick a room to edit:</span>
+      <div class="slot-buttons" role="group" aria-label="Choose room save slot">
+        <div class="slot-item">
+          <button class="slot-btn active" type="button" data-slot="1">Room 1</button>
+          <button class="slot-edit-btn" type="button" data-slot="1" aria-label="Rename Room 1" title="Rename Room 1">✏️</button>
+        </div>
+        <div class="slot-item">
+          <button class="slot-btn" type="button" data-slot="2">Room 2</button>
+          <button class="slot-edit-btn" type="button" data-slot="2" aria-label="Rename Room 2" title="Rename Room 2">✏️</button>
+        </div>
+        <div class="slot-item">
+          <button class="slot-btn" type="button" data-slot="3">Room 3</button>
+          <button class="slot-edit-btn" type="button" data-slot="3" aria-label="Rename Room 3" title="Rename Room 3">✏️</button>
+        </div>
+      </div>
+    </div>
+    <p class="save-status" id="save-status" aria-live="polite">Saved locally on this device</p>
+  </header>
+
+  <!-- 🎨 Main area: room + panels -->
+  <main class="main">
+
+    <!-- Colour Picker Panel -->
+    <section class="panel colour-panel">
+      <h2>🎨 Wall Colour</h2>
+      <div class="swatch-row" id="wall-colours">
+        <button class="swatch" data-colour="#F9C5D1" style="background:#F9C5D1" title="Pink"></button>
+        <button class="swatch" data-colour="#D5B3F5" style="background:#D5B3F5" title="Lilac"></button>
+        <button class="swatch" data-colour="#A8D8EA" style="background:#A8D8EA" title="Sky Blue"></button>
+        <button class="swatch" data-colour="#B5EAD7" style="background:#B5EAD7" title="Mint"></button>
+        <button class="swatch" data-colour="#FFF5BA" style="background:#FFF5BA" title="Sunshine"></button>
+        <button class="swatch" data-colour="#FFB7B2" style="background:#FFB7B2" title="Coral"></button>
+        <button class="swatch" data-colour="#FFDAC1" style="background:#FFDAC1" title="Peach"></button>
+        <button class="swatch" data-colour="#FFFFFF" style="background:#FFFFFF" title="White"></button>
+        <button class="swatch" data-colour="#E2F0CB" style="background:#E2F0CB" title="Lime"></button>
+        <button class="swatch" data-colour="#C7CEEA" style="background:#C7CEEA" title="Lavender"></button>
+      </div>
+
+      <h2>🪵 Floor Colour</h2>
+      <div class="swatch-row" id="floor-colours">
+        <button class="swatch" data-colour="#D2A679" style="background:#D2A679" title="Light Wood"></button>
+        <button class="swatch" data-colour="#A0522D" style="background:#A0522D" title="Dark Wood"></button>
+        <button class="swatch" data-colour="#F5C6D0" style="background:#F5C6D0" title="Pink Carpet"></button>
+        <button class="swatch" data-colour="#D1C4E9" style="background:#D1C4E9" title="Purple Carpet"></button>
+        <button class="swatch" data-colour="#B2DFDB" style="background:#B2DFDB" title="Teal Carpet"></button>
+        <button class="swatch" data-colour="#E8E8E8" style="background:#E8E8E8" title="Grey Carpet"></button>
+        <button class="swatch" data-colour="#FFFDE7" style="background:#FFFDE7" title="Cream Carpet"></button>
+        <button class="swatch" data-colour="#90CAF9" style="background:#90CAF9" title="Blue Carpet"></button>
+      </div>
+    </section>
+
+    <!-- The Room! -->
+    <section class="room-container">
+      <div class="room" id="room">
+        <div class="room-surfaces">
+          <div class="wall" id="wall"></div>
+          <div class="floor" id="floor"></div>
+        </div>
+        <!-- Placed items go here -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 🧸 Decoration Tray -->
+  <section class="panel tray-panel">
+    <h2>🧸 Drag decorations into your room!</h2>
+    <div class="tray" id="tray">
+      <!-- Furniture -->
+      <div class="tray-item" draggable="true" data-emoji="🛏️" data-label="Bed">
+        <span class="tray-emoji">🛏️</span>
+        <span class="tray-label">Bed</span>
+      </div>
+      <div class="tray-item" draggable="true" data-emoji="🪑" data-label="Chair">
+        <span class="tray-emoji">🪑</span>
+        <span class="tray-label">Chair</span>
+      </div>
+      <div class="tray-item" draggable="true" data-emoji="🪞" data-label="Mirror">
+        <span class="tray-emoji">🪞</span>
+        <span class="tray-label">Mirror</span>
+      </div>
+      <div class="tray-item" draggable="true" data-emoji="💡" data-label="Lamp">
+        <span class="tray-emoji">💡</span>
+        <span class="tray-label">Lamp</span>
+      </div>
+      <div class="tray-item" draggable="true" data-emoji="📚" data-label="Books">
+        <span class="tray-emoji">📚</span>
+        <span class="tray-label">Books</span>
+      </div>
+      <div class="tray-item" draggable="true" data-emoji="🖥️" data-label="Desk">
+        <span class="tray-emoji">🖥️</span>
+        <span class="tray-label">Desk</span>
+      </div>
+      <!-- Decorations -->
+      <div class="tray-item" draggable="true" data-emoji="🧸" data-label="Teddy">
+        <span class="tray-emoji">🧸</span>
+        <span class="tray-label">Teddy</span>
+      </div>
+      <div class="tray-item" draggable="true" data-emoji="🌈" data-label="Rainbow">
+        <span class="tray-emoji">🌈</span>
+        <span class="tray-label">Rainbow</span>
+      </div>
+      <div class="tray-item" draggable="true" data-emoji="⭐" data-label="Star">
+        <span class="tray-emoji">⭐</span>
+        <span class="tray-label">Star</span>
+      </div>
+      <div class="tray-item" draggable="true" data-emoji="🌸" data-label="Flower">
+        <span class="tray-emoji">🌸</span>
+        <span class="tray-label">Flower</span>
+      </div>
+      <div class="tray-item" draggable="true" data-emoji="🦄" data-label="Unicorn">
+        <span class="tray-emoji">🦄</span>
+        <span class="tray-label">Unicorn</span>
+      </div>
+      <div class="tray-item" draggable="true" data-emoji="🎀" data-label="Bow">
+        <span class="tray-emoji">🎀</span>
+        <span class="tray-label">Bow</span>
+      </div>
+      <div class="tray-item" draggable="true" data-emoji="🖼️" data-label="Picture">
+        <span class="tray-emoji">🖼️</span>
+        <span class="tray-label">Picture</span>
+      </div>
+      <div class="tray-item" draggable="true" data-emoji="🎵" data-label="Music">
+        <span class="tray-emoji">🎵</span>
+        <span class="tray-label">Music</span>
+      </div>
+      <div class="tray-item" draggable="true" data-emoji="🌙" data-label="Moon">
+        <span class="tray-emoji">🌙</span>
+        <span class="tray-label">Moon</span>
+      </div>
+      <div class="tray-item" draggable="true" data-emoji="🎈" data-label="Balloon">
+        <span class="tray-emoji">🎈</span>
+        <span class="tray-label">Balloon</span>
+      </div>
+      <div class="tray-item" draggable="true" data-emoji="🏰" data-label="Castle">
+        <span class="tray-emoji">🏰</span>
+        <span class="tray-label">Castle</span>
+      </div>
+      <div class="tray-item" draggable="true" data-emoji="🧁" data-label="Cupcake">
+        <span class="tray-emoji">🧁</span>
+        <span class="tray-label">Cupcake</span>
+      </div>
+      <div class="tray-item" draggable="true" data-emoji="🐱" data-label="Cat">
+        <span class="tray-emoji">🐱</span>
+        <span class="tray-label">Cat</span>
+      </div>
+      <div class="tray-item" draggable="true" data-emoji="🦋" data-label="Butterfly">
+        <span class="tray-emoji">🦋</span>
+        <span class="tray-label">Butterfly</span>
+      </div>
+      <div class="tray-item" draggable="true" data-emoji="💎" data-label="Gem">
+        <span class="tray-emoji">💎</span>
+        <span class="tray-label">Gem</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Action Buttons -->
+  <section class="actions">
+    <button class="btn btn-sparkle" id="btn-sparkle">✨ Sparkle!</button>
+    <button class="btn btn-undo" id="btn-undo">↩️ Undo</button>
+    <button class="btn btn-clear" id="btn-clear">🗑️ Clear Room</button>
+  </section>
+
+  <div class="rename-dialog" id="rename-dialog" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="rename-dialog-title">
+    <form class="rename-card" id="rename-form">
+      <div class="rename-emoji" aria-hidden="true">🦄✨</div>
+      <h2 id="rename-dialog-title">Name your room</h2>
+      <p class="rename-help" id="rename-dialog-help">Choose a fun name!</p>
+      <input id="rename-input" class="rename-input" type="text" maxlength="30" autocomplete="off">
+      <div class="rename-actions">
+        <button type="button" class="rename-btn cancel" id="rename-cancel-btn">Cancel</button>
+        <button type="submit" class="rename-btn save" id="rename-save-btn">Save</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
